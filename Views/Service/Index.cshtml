@@ -1,0 +1,38 @@
+@model List<SalonTime.Models.Service>
+
+@{
+    ViewData["Title"] = "Tjänster";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #b30059;">Tillgängliga Tjänster</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center">Inga tjänster finns tillgängliga ännu.</p>
+    }
+    else
+    {
+        <table class="table table-bordered shadow-sm">
+            <thead class="table-light">
+            <tr>
+                <th>Namn</th>
+                <th>Beskrivning</th>
+                <th>Pris (kr)</th>
+                <th>Varaktighet</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var service in Model)
+            {
+                <tr>
+                    <td>@service.Name</td>
+                    <td>@service.Description</td>
+                    <td>@service.Price</td>
+                    <td>@service.Duration</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>

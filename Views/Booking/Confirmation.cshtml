@@ -1,0 +1,104 @@
+@model SalonTime.Models.Booking
+@{
+    ViewData["Title"] = "Bokningsbekräftelse";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm text-center" style="border: 2px solid #b30059;">
+                <div class="card-body p-5">
+                    <!-- Success Icon -->
+                    <div class="mb-4">
+                        <div style="font-size: 4rem; color: #b30059;">✓</div>
+                    </div>
+                    
+                    <h2 class="mb-3" style="color: #b30059;">Tack för din bokning!</h2>
+                    <p class="lead mb-4">Din bokning är nu bekräftad. Vi ser fram emot ditt besök!</p>
+
+                    <!-- Bokningsdetaljer -->
+                    <div class="confirmation-details text-start mb-4">
+                        <h4 class="mb-3" style="color: #b30059;">Bokningsinformation</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Bokningsnummer:</strong> #@Model.Id</p>
+                                <p><strong>Namn:</strong> @Model.CustomerName</p>
+                                <p><strong>E-post:</strong> @Model.CustomerEmail</p>
+                                <p><strong>Telefon:</strong> @Model.CustomerPhone</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Tjänst:</strong> @Model.Service?.Name</p>
+                                <p><strong>Frisör:</strong> @Model.Hairdresser?.Name</p>
+                                <p><strong>Datum:</strong> @Model.BookingDate.ToString("yyyy-MM-dd")</p>
+                                <p><strong>Tid:</strong> @Model.BookingTime</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UPPDATERAD PRISINFORMATION FÖR STRATEGY PATTERN  -->
+                    <div class="price-section mb-4 p-4" style="background-color: #ffe6f0; border-radius: 15px; border-left: 4px solid #b30059;">
+                        <h5 style="color: #b30059; margin-bottom: 20px;">Prisinformation</h5>
+                        
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3">
+                                <div class="price-item">
+                                    <div style="font-size: 0.9rem; color: #666;">Originalpris</div>
+                                    <div style="font-size: 1.4rem; font-weight: bold; color: #333;">@Model.OriginalPrice kr</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="price-item">
+                                    <div style="font-size: 0.9rem; color: #666;">Rabatt</div>
+                                    <div style="font-size: 1.1rem; font-weight: bold; color: #28a745;">@Model.DiscountDescription</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="price-item">
+                                    <div style="font-size: 0.9rem; color: #666;">Att betala</div>
+                                    <div style="font-size: 1.8rem; font-weight: bold; color: #b30059;">@Model.FinalPrice kr</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Visar besparingar om rabatt applicerades -->
+                        @if (Model.OriginalPrice > Model.FinalPrice)
+                        {
+                            <div class="savings-info mt-3 p-2" style="background-color: #d4edda; border-radius: 5px;">
+                                <small>
+                                    <strong>Bra val! Du sparar @(Model.OriginalPrice - Model.FinalPrice) kr</strong> 
+                                </small>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Ytterligare serviceinformation -->
+                    @if (Model.Service != null)
+                    {
+                        <div class="service-info mb-3 p-3" style="background-color: #f8f9fa; border-radius: 10px;">
+                            <small class="text-muted">
+                                <strong>Tjänstinformation:</strong> @Model.Service.Duration
+                                @if (!string.IsNullOrEmpty(Model.Service.Description))
+                                {
+                                    <br>@Model.Service.Description
+                                }
+                            </small>
+                        </div>
+                    }
+
+                    <div class="alert alert-info mt-4">
+                        <strong>Viktig information:</strong><br>
+                        • Kom i tid för din bokning<br>
+                        • Avbokning sker minst 24 timmar i förväg<br>
+                        • Betalning sker på plats
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                        <a href="/" class="btn btn-primary me-md-2">Startsida</a>
+                        <a href="/Service" class="btn btn-secondary">Våra tjänster</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

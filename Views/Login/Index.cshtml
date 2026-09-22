@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Admin Inloggning";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4" style="color: #b30059;">Admin Inloggning</h2>
+                    
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Användarnamn</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Lösenord</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Logga in</button>
+                        </div>
+                    </form>
+                    
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger mt-3">
+                            @Html.ValidationSummary()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

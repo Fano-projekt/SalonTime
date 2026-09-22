@@ -1,0 +1,14 @@
+bin/
+obj/
+.idea/
+.DS_Store
+
+*.db
+*.db-shm
+*.db-wal
+
+.env
+.env.*
+
+*.user
+*.suo

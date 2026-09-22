@@ -1,0 +1,57 @@
+@model List<SalonTime.Models.Booking>
+@{
+    ViewData["Title"] = "Alla Bokningar";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #b30059;">Alla Bokningar</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Inga bokningar finns ännu.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover shadow-sm">
+                <thead class="table-light" style="background-color: #ffe6f0;">
+                    <tr>
+                        <th>BokningsID</th>
+                        <th>Kund</th>
+                        <th>Tjänst</th>
+                        <th>Frisör</th>
+                        <th>Datum</th>
+                        <th>Tid</th>
+                        <th>Status</th>
+                        <th>Åtgärd</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>#@booking.Id</td>
+                            <td>
+                                <strong>@booking.CustomerName</strong><br>
+                                <small>@booking.CustomerEmail</small><br>
+                                <small>@booking.CustomerPhone</small>
+                            </td>
+                            <td>@booking.Service?.Name<br><small>@booking.Service?.Price kr</small></td>
+                            <td>@booking.Hairdresser?.Name</td>
+                            <td>@booking.BookingDate.ToString("yyyy-MM-dd")</td>
+                            <td>@booking.BookingTime</td> 
+                            <td>
+                                <span class="badge bg-success">@booking.Status</span>
+                            </td>
+                            <td>
+                                <a href="/Booking/Confirmation/@booking.Id" class="btn btn-sm btn-outline-primary">Visa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

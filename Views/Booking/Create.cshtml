@@ -1,0 +1,125 @@
+@model SalonTime.Models.Booking
+@{
+    ViewData["Title"] = "Boka Tid";
+}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #b30059;">Boka Tid</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm" style="border: 2px solid #ffe6f0;">
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Kundinformation -->
+                        <h4 class="mb-3" style="color: #b30059;">Dina uppgifter</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CustomerName" class="form-label">Fullständigt namn *</label>
+                                <input asp-for="CustomerName" class="form-control" placeholder="Ange ditt namn" />
+                                <span asp-validation-for="CustomerName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CustomerEmail" class="form-label">E-post *</label>
+                                <input asp-for="CustomerEmail" class="form-control" placeholder="exempel@mail.se" />
+                                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="CustomerPhone" class="form-label">Telefon *</label>
+                            <input asp-for="CustomerPhone" class="form-control" placeholder="070 123 45 67" />
+                            <span asp-validation-for="CustomerPhone" class="text-danger"></span>
+                        </div>
+
+                        <!-- Bokningsinformation -->
+                        <h4 class="mb-3 mt-4" style="color: #b30059;">Bokningsdetaljer</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ServiceId" class="form-label">Välj tjänst *</label>
+                                <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services">
+                                    <option value="">-- Välj tjänst --</option>
+                                </select>
+                                <span asp-validation-for="ServiceId" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="HairdresserId" class="form-label">Välj frisör *</label>
+                                <select asp-for="HairdresserId" class="form-select" asp-items="ViewBag.Hairdressers">
+                                    <option value="">-- Välj frisör --</option>
+                                </select>
+                                <span asp-validation-for="HairdresserId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BookingDate" class="form-label">Datum *</label>
+                                <input asp-for="BookingDate" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="BookingDate" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BookingTime" class="form-label">Tid *</label>
+                                <select asp-for="BookingTime" class="form-select">
+                                    <option value="">-- Välj tid --</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                </select>
+                                <span asp-validation-for="BookingTime" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- RABATTVAL - NY SEKTION från Deepseek -->
+                        <h4 class="mb-3 mt-4" style="color: #b30059;">Rabatter</h4>
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="discountType" value="None" id="noDiscount" checked>
+                                    <label class="form-check-label" for="noDiscount">
+                                        <strong>Ingen rabatt</strong>
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="discountType" value="Percentage10" id="percentDiscount">
+                                    <label class="form-check-label" for="percentDiscount">
+                                        <strong>10% rabatt</strong> - Spara pengar på din behandling
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="discountType" value="Fixed50" id="fixedDiscount">
+                                    <label class="form-check-label" for="fixedDiscount">
+                                        <strong>50 kr rabatt</strong> - Perfekt för mindre behandlingar
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="/" class="btn btn-secondary me-md-2">Avbryt</a>
+                            <button type="submit" class="btn btn-primary">Boka tid</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Sätt min-datum till idag
+        document.getElementById('BookingDate').min = new Date().toISOString().split('T')[0];
+    </script>
+}
